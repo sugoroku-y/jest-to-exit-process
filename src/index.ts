@@ -88,14 +88,15 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
     interface Matchers<R, T> {
-      toExitProcess(code?: number): T extends (...args: unknown[]) => infer TR
+      toExitProcess(
+        ...args: T extends () => unknown
+          ? [code?: number]
+          : [] & 'expectには関数を指定してください。'
+      ): T extends (...args: unknown[]) => infer TR
         ? TR extends Promise<unknown>
           ? Promise<R>
           : R
-        : {
-            '!!ERROR!!': 'expectには関数を指定してください。';
-            dummy: never;
-          };
+        : never;
     }
   }
 }
