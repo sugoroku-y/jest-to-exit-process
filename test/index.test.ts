@@ -1,16 +1,5 @@
 import '../src';
 
-export async function thrown<T>(proc: () => Promise<T>): Promise<() => T> {
-  try {
-    const result = await proc();
-    return () => result;
-  } catch (ex: unknown) {
-    return () => {
-      throw ex;
-    };
-  }
-}
-
 const EXIT_MAP = {
   'does not exit': null,
   'exit without code': [],
@@ -80,13 +69,11 @@ describe('.toExitProcess', () => {
           }).not.toExitProcess(...toExitProcessParam);
         }).toThrowErrorMatchingInlineSnapshot(snapshot);
         // 非同期
-        expect(
-          await thrown(async () => {
-            await expect(async () => {
-              await testProcAsync();
-            }).not.toExitProcess(...toExitProcessParam);
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(snapshot);
+        await expect(async () => {
+          await expect(async () => {
+            await testProcAsync();
+          }).not.toExitProcess(...toExitProcessParam);
+        }).rejects.toThrowErrorMatchingInlineSnapshot(snapshot);
       } else {
         // .notが付かなければ失敗となる組み合わせ
         const snapshot = !exitParam
@@ -103,13 +90,11 @@ Received process exit code: ${exitParam[0] ?? 0}"
           }).toExitProcess(...toExitProcessParam);
         }).toThrowErrorMatchingInlineSnapshot(snapshot);
         // 非同期
-        expect(
-          await thrown(async () => {
-            await expect(async () => {
-              await testProcAsync();
-            }).toExitProcess(...toExitProcessParam);
-          }),
-        ).toThrowErrorMatchingInlineSnapshot(snapshot);
+        await expect(async () => {
+          await expect(async () => {
+            await testProcAsync();
+          }).toExitProcess(...toExitProcessParam);
+        }).rejects.toThrowErrorMatchingInlineSnapshot(snapshot);
         // .notが付いてるので成功
         expect(() => {
           testProc();
@@ -136,19 +121,15 @@ Received process exit code: ${exitParam[0] ?? 0}"
     expect(() => {
       expect(testProc).toExitProcess();
     }).toThrowErrorMatchingInlineSnapshot(`"normal"`);
-    expect(
-      await thrown(async () => {
-        await expect(testProcAsync).toExitProcess();
-      }),
-    ).toThrowErrorMatchingInlineSnapshot(`"async"`);
+    await expect(async () => {
+      await expect(testProcAsync).toExitProcess();
+    }).rejects.toThrowErrorMatchingInlineSnapshot(`"async"`);
     // .notが付いてても例外の対応は同じ
     expect(() => {
       expect(testProc).not.toExitProcess();
     }).toThrowErrorMatchingInlineSnapshot(`"normal"`);
-    expect(
-      await thrown(async () => {
-        await expect(testProcAsync).not.toExitProcess();
-      }),
-    ).toThrowErrorMatchingInlineSnapshot(`"async"`);
+    await expect(async () => {
+      await expect(testProcAsync).not.toExitProcess();
+    }).rejects.toThrowErrorMatchingInlineSnapshot(`"async"`);
   });
 });
