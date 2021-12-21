@@ -3,6 +3,8 @@
 expectで指定した関数が内部でプロセス終了することをテストするためのマッチャーです。
 
 ```ts
+import 'jest-to-exit-process';
+
 expect(() => {
   process.exit();
 }).toExitProcess();
