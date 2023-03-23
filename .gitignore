@@ -1,5 +1,5 @@
 /node_modules/
-/index.js
-/index.d.ts
 /coverage/
 /*.tgz
+/index.js
+/index.d.ts

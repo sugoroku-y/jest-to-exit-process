@@ -3,8 +3,11 @@
     "target": "ES2018",
     "module": "commonjs",
     "lib": ["ESNext"],
+    "outDir": "../",
     "declaration": true,
-    "outDir": "..",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -12,15 +15,20 @@
     "strictBindCallApply": true,
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
     "alwaysStrict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+
+    "skipLibCheck": true
   },
   "exclude": []
 }
